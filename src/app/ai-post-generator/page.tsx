@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import ChatBox from '../components/ChatBox';
@@ -34,14 +34,16 @@ export default function AiPostGeneratorPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <ChatProvider>
-        <Navbar />
-        <div className="container mx-auto px-4 py-6 max-w-4xl">
-          <div className="bg-white rounded-lg shadow-md overflow-hidden" style={{ height: 'calc(100vh - 160px)' }}>
-            <ChatBox />
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-2xl font-semibold">Loading...</div></div>}>
+        <ChatProvider>
+          <Navbar />
+          <div className="container mx-auto px-4 py-6 max-w-4xl">
+            <div className="bg-white rounded-lg shadow-md overflow-hidden" style={{ height: 'calc(100vh - 160px)' }}>
+              <ChatBox />
+            </div>
           </div>
-        </div>
-      </ChatProvider>
+        </ChatProvider>
+      </Suspense>
     </div>
   );
 }

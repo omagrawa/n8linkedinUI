@@ -157,7 +157,7 @@ if(response.data){
 
     await axios.post(`${API_BASE_URL}/webhook/PostLinkedAPI`,{
         userId: userId,
-        postDetails: post.postDetails,
+        postDetails: post.content,
         imageUrl: post.imageUrl,
         chatSessionId: searchParams.get('chatsessionId'),
         imagePost: post.imageUrl ? true : false
@@ -210,6 +210,7 @@ if(response.data){
         fetchSuggestions,
         selectSuggestion,
         publishPost,
+        addCustomPost,
         generateImageHandle,
         userPosts
       }}

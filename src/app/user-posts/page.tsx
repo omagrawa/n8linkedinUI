@@ -215,11 +215,10 @@ export default function UserPosts() {
                     {posts.map((post) => (
                       <PostTableRow 
                         key={post.id}
-               
+                        username={post.username || 'Unknown'}
                         profileImage={post.imageUrl}
-                        content={post.postDetails}
+                        content={post.content}
                         timestamp={post.createdAt}
-
                         status={post.status}
                       />
                     ))}

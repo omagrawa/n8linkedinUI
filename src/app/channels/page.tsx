@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '../components/Navbar';
 import ChannelsManager from '../components/ChannelsManager';
@@ -65,10 +65,12 @@ export default function ChannelsPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <ChannelsProvider>
-        <Navbar />
-        <ChannelsManager />
-      </ChannelsProvider>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-2xl font-semibold">Loading...</div></div>}>
+        <ChannelsProvider>
+          <Navbar />
+          <ChannelsManager />
+        </ChannelsProvider>
+      </Suspense>
     </div>
   );
 }

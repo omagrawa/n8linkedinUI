@@ -1,12 +1,11 @@
-'use client';
 
+'use client';
 import { useEffect, useState } from 'react';
 import { useLinkedin, PostSuggestion } from '../contexts/LinkedinContext';
 import { useChannels } from '../contexts/ChannelsContext';
 
 // Post preview component
 const PostPreview = ({ post, channelDetails, generateImageHandle }: { post: PostSuggestion, channelDetails: any, generateImageHandle: (prompt: string) => void }) => {
-
   const [generateImageEnable, setGenerateImageEnable] = useState(false);
   const [imagePrompt, setImagePrompt] = useState('');
   return (
@@ -16,15 +15,13 @@ const PostPreview = ({ post, channelDetails, generateImageHandle }: { post: Post
           <span className="text-white font-bold text-xl">P</span>
         </div>
         <div className="ml-4 flex-1">
-          <div className="font-semibold">{channelDetails.userName || ""}</div>
+          <div className="font-semibold">{channelDetails?.userName || ""}</div>
           <div className="text-sm text-gray-500">Just now · LinkedIn Post</div>
         </div>
       </div>
-      
       <div className="mt-3">
-        <p className="text-gray-800 whitespace-pre-line">{post.postDetails}</p>
+        <p className="text-gray-800 whitespace-pre-line">{post.content}</p>
       </div>
-      
       {post.imageUrl && (
         <div className="mt-3">
           <img 
@@ -34,7 +31,6 @@ const PostPreview = ({ post, channelDetails, generateImageHandle }: { post: Post
           />
         </div>
       )}
-
       {post.tags && post.tags.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-2">
           {post.tags.map((tag) => (
@@ -47,23 +43,19 @@ const PostPreview = ({ post, channelDetails, generateImageHandle }: { post: Post
           ))}
         </div>
       )}
-
-
       {generateImageEnable ? (
         <div className='mt-3 flex justify-between items-center gap-3'>
-        <input onChange={(e:any)=> setImagePrompt(e.target.value)} type='text' placeholder='enter image prompt...' className='mt-3 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500' />
-        <button onClick={()=> generateImageHandle(imagePrompt)} className='mt-3 bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 focus:outline-none' >Generate</button>
-       <button onClick={()=> setGenerateImageEnable(false)} className='mt-3 bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 focus:outline-none' >Cancel</button>
-      </div>)
-      :
-      <div>
-     <button onClick={()=> setGenerateImageEnable(true)} className='mt-3 bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 focus:outline-none'>
-      Generate AI Image
-     </button>
-      </div>
-      
-    }
-
+          <input onChange={(e:any)=> setImagePrompt(e.target.value)} type='text' placeholder='enter image prompt...' className='mt-3 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500' />
+          <button onClick={()=> generateImageHandle(imagePrompt)} className='mt-3 bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 focus:outline-none' >Generate</button>
+          <button onClick={()=> setGenerateImageEnable(false)} className='mt-3 bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 focus:outline-none' >Cancel</button>
+        </div>)
+        :
+        <div>
+          <button onClick={()=> setGenerateImageEnable(true)} className='mt-3 bg-teal-600 text-white px-4 py-2 rounded-md hover:bg-teal-700 focus:outline-none'>
+            Generate AI Image
+          </button>
+        </div>
+      }
       <div className="mt-3 border-t border-gray-100 pt-3 flex">
         <div className="flex items-center mr-4 text-gray-500">
           <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -84,7 +76,6 @@ const PostPreview = ({ post, channelDetails, generateImageHandle }: { post: Post
           </svg>
           <span>5</span>
         </div>
-        
         <div className="ml-auto">
           {post.estimatedEngagement && (
             <span className={`px-2 py-1 text-xs rounded-full ${
@@ -114,15 +105,14 @@ const SuggestionCard = ({
 }) => {
   return (
     <div 
-      className={`${
+      className={`$${
         isSelected 
           ? 'border-2 border-blue-500 bg-blue-50'
           : 'border border-gray-200 bg-white hover:border-blue-300'
       } p-4 rounded-lg mb-4 cursor-pointer transition-all`}
       onClick={() => onSelect(suggestion)}
     >
-      <p className="text-gray-800 line-clamp-3">{suggestion.postDetails}</p>
-      
+      <p className="text-gray-800 line-clamp-3">{suggestion.content}</p>
       <div className="mt-3 flex justify-between items-center">
         <div className="flex flex-wrap gap-2">
           {suggestion.tags && suggestion.tags.slice(0, 2).map((tag) => (
@@ -131,19 +121,7 @@ const SuggestionCard = ({
             </span>
           ))}
         </div>
-
-        {/* {suggestion.estimatedEngagement && (
-          <span className={`px-2 py-1 text-xs rounded-full ${
-            suggestion.estimatedEngagement === 'Very High' ? 'bg-green-100 text-green-800' : 
-            suggestion.estimatedEngagement === 'High' ? 'bg-blue-100 text-blue-800' : 
-            suggestion.estimatedEngagement === 'Medium' ? 'bg-yellow-100 text-yellow-800' : 
-            'bg-gray-100 text-gray-800'
-          }`}>
-            {suggestion.estimatedEngagement}
-          </span>
-        )} */}
       </div>
-
       {suggestion.imageUrl && (
         <div className="mt-2">
           <div className="h-24 w-full rounded-md bg-gray-100 relative overflow-hidden">
@@ -155,7 +133,6 @@ const SuggestionCard = ({
           </div>
         </div>
       )}
-
       {isSelected && (
         <div className="mt-3 text-blue-600 font-medium flex items-center">
           <svg className="w-5 h-5 mr-1" fill="currentColor" viewBox="0 0 20 20">
@@ -179,45 +156,29 @@ export default function LinkedinPostGenerator({ initialDraft = null }: { initial
     publishPost,
     generateImageHandle
   } = useLinkedin();
-
-    const { 
-      channels, 
-
-      connectChannel, 
-      disconnectChannel,
-      refreshChannels
-    } = useChannels();
-
-    
+  const { 
+    channels, 
+    connectChannel, 
+    disconnectChannel,
+    refreshChannels
+  } = useChannels();
   const [isPublishing, setIsPublishing] = useState(false);
   const [publishSuccess, setPublishSuccess] = useState(false);
   const [publishError, setPublishError] = useState<string | null>(null);
-
-  console.log("suggestions", suggestions)
-
-  const channelDetails = channels.find(channel => channel.channel === 'linkedin');
-
-  console.log("channelDetails", channelDetails)
-
+  const channelDetails = channels.find(channel => channel.type === 'linkedin');
   useEffect(() => {
-    // Fetch suggestions when component mounts
     fetchSuggestions();
   }, []);
-
-  // Initialize with the draft post if provided
   useEffect(() => {
     if (initialDraft) {
       selectSuggestion(initialDraft);
     }
   }, [initialDraft, selectSuggestion]);
-
   const handlePublish = async () => {
     if (!selectedSuggestion) return;
-    
     setIsPublishing(true);
     setPublishSuccess(false);
     setPublishError(null);
-    
     try {
       const success = await publishPost(selectedSuggestion);
       if (success) {
@@ -232,7 +193,6 @@ export default function LinkedinPostGenerator({ initialDraft = null }: { initial
       setIsPublishing(false);
     }
   };
-
   return (
     <>
       <header className="bg-white shadow">
@@ -241,10 +201,8 @@ export default function LinkedinPostGenerator({ initialDraft = null }: { initial
           <p className="mt-1 text-sm text-gray-500">Generate and publish engaging LinkedIn posts</p>
         </div>
       </header>
-
       <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          {/* Success/Error messages */}
           {publishSuccess && (
             <div className="bg-green-50 border-l-4 border-green-500 p-4 mb-6">
               <div className="flex">
@@ -261,7 +219,6 @@ export default function LinkedinPostGenerator({ initialDraft = null }: { initial
               </div>
             </div>
           )}
-          
           {(error || publishError) && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
               <div className="flex">
@@ -278,13 +235,10 @@ export default function LinkedinPostGenerator({ initialDraft = null }: { initial
               </div>
             </div>
           )}
-
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Suggestions section */}
             <div className="lg:col-span-1">
               <div className="bg-white shadow rounded-lg p-6">
                 <h2 className="text-xl font-semibold mb-4">Post Suggestions</h2>
-                
                 <div className="mb-4">
                   <button 
                     onClick={() => fetchSuggestions()} 
@@ -302,7 +256,6 @@ export default function LinkedinPostGenerator({ initialDraft = null }: { initial
                     ) : 'Generate New Suggestions'}
                   </button>
                 </div>
-                
                 {isLoading ? (
                   <div className="flex items-center justify-center py-10">
                     <svg className="animate-spin h-10 w-10 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -332,19 +285,14 @@ export default function LinkedinPostGenerator({ initialDraft = null }: { initial
                 )}
               </div>
             </div>
-            
-            {/* Preview and publish section */}
             <div className="lg:col-span-2">
               <div className="bg-white shadow rounded-lg p-6">
                 <h2 className="text-xl font-semibold mb-4">Preview & Publish</h2>
-                
                 {selectedSuggestion ? (
                   <>
                     <PostPreview generateImageHandle={generateImageHandle} post={selectedSuggestion} channelDetails={channelDetails} />
-                    
                     <div className="mt-6 flex justify-between items-center gap-6">
-
-                           <button
+                      <button
                         onClick={handlePublish}
                         disabled={isPublishing}
                         className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none disabled:bg-green-400"

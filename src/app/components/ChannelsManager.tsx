@@ -24,18 +24,18 @@ const ConnectedChannelCard = ({
           />
         ) : (
           <div className={`h-12 w-12 rounded-full flex items-center justify-center text-white
-            ${channel.channel === 'linkedin' ? 'bg-blue-600' : 
-              channel.channel === 'instagram' ? 'bg-pink-600' : 
+            ${channel.type === 'linkedin' ? 'bg-blue-600' : 
+              channel.type === 'instagram' ? 'bg-pink-600' : 
               'bg-blue-800'}`}
           >
-            {channel.channel === 'linkedin' ? 'Li' : 
-              channel.channel === 'instagram' ? 'In' : 'Fb'}
+            {channel.type === 'linkedin' ? 'Li' : 
+              channel.type === 'instagram' ? 'In' : 'Fb'}
           </div>
         )}
       </div>
       <div className="flex-1 min-w-0">
         <h3 className="te   xt-lg font-semibold text-gray-900 truncate">
-          {channel.userName }
+          {channel.username }
         </h3>
         <p className="text-sm text-gray-500 truncate">
           {/* Connected {channel.connectedAt?.toLocaleDateString()} */}
@@ -68,14 +68,12 @@ const ConnectedChannelCard = ({
     </div>
     <div className="mt-4 flex justify-between">
       <span className={`px-2 py-1 text-xs font-medium rounded-full
-        ${channel.status === 'connected' ? 'bg-green-200 text-green-800' : 
-          channel.status === 'disconnected' ? 'bg-pink-100 text-pink-800' : 
-          'bg-blue-100 text-blue-800'}`}
+        ${channel.connected ? 'bg-green-200 text-green-800' : 'bg-blue-100 text-blue-800'}`}
       >
-        {channel.status}
+        {channel.connected ? 'Connected' : 'Not Connected'}
       </span>
       <span className="text-xs text-gray-500">
-        ID: {channel.channel_userId}
+        ID: {channel.id}
       </span>
     </div>
   </div>
@@ -170,9 +168,9 @@ export default function ChannelsManager() {
   };
 
   // Filter channels by type
-  const linkedinChannels = channels?.filter(channel => channel.channel === 'linkedin');
-  const instagramChannels = channels?.filter(channel => channel.channel === 'instagram');
-  const facebookChannels = channels?.filter(channel => channel.channel === 'facebook');
+  const linkedinChannels = channels?.filter(channel => channel.type === 'linkedin');
+  const instagramChannels = channels?.filter(channel => channel.type === 'instagram');
+  const facebookChannels = channels?.filter(channel => channel.type === 'facebook');
 
   console.log("isLoading", isLoading)
   return (
